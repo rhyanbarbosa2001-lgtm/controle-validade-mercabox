@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Produtos | Mercabox Araújo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f6f4;
+            color: #172b22;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        form {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+        }
+        label { display: block; margin-top: 16px; }
+        input {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            font: inherit;
+            border: 1px solid #64756b;
+            border-radius: 6px;
+        }
+        button {
+            background: #17643b;
+            color: white;
+            padding: 14px 24px;
+            border: 0;
+            border-radius: 6px;
+            margin-top: 20px;
+            font: inherit;
+            cursor: pointer;
+        }
+        :focus-visible { outline: 3px solid #174cbb; outline-offset: 3px; }
+    </style>
+</head>
+<body>
+    <h1>Mercabox Araújo</h1>
+    <nav aria-label="Menu principal">
+    <a href="/lotes">Registrar lote</a> |
+    <a href="/vencimentos">Ver vencimentos</a>
+</nav>
+    <h2>Cadastrar produto</h2>
+    <p>Preencha os dois campos obrigatórios para salvar o produto.</p>
+
+    {% if mensagem %}
+        <p role="status">{{ mensagem }}</p>
+    {% endif %}
+
+    <form method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+        <label for="nome">Nome do produto (obrigatório)</label>
+        <input id="nome" name="nome" maxlength="120"
+               value="{{ nome }}" required>
+
+        <label for="codigo">Código interno (obrigatório)</label>
+        <input id="codigo" name="codigo_interno" maxlength="40"
+               value="{{ codigo }}" required>
+
+        <button type="submit">Salvar produto</button>
+    </form>
+
+    <h2>Produtos cadastrados</h2>
+    <ul>
+        {% for produto in produtos %}
+            <li>{{ produto.codigo_interno }} — {{ produto.nome }}</li>
+        {% else %}
+            <li>Nenhum produto cadastrado.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
